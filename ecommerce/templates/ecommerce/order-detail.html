@@ -1,0 +1,57 @@
+{% extends 'ecommerce/dash-base.html' %}
+{% block title%} Order | Detail | Ecommerce{% endblock %}
+{% block dashbody %}
+{% load static %}
+<!-- Other Elements Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div id="citems" class="bg-light rounded h-100 p-4">
+                <!--
+                <h6 class="mb-4 text-end">{{order.order_id}}</h6>
+                <div class="testimonial-item text-center">
+                    <h5 class="mb-1">{{order.name}}</h5>
+                    <p>{{order.phone}}</p>
+                    <p class="mb-0">{{order.address}}</p>
+                    <p>{{order.items_json}}</p>
+                </div>
+            -->
+                <button type="button" class="btn btn-danger m-2">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock dashbody %}
+{% block dashjs %}
+<script>
+    
+
+    
+        $('#citems').empty();
+        myid = `<h6 class="mb-4 text-end">{{order.order_id}}</h6>`
+        $('#citems').append(myid)
+        mydata = "{{order.items_json}}";
+        var mydata = mydata.replace(/&quot;/g, '"');
+        obj = JSON.parse(mydata)
+        console.log(obj)
+        var sum = 0;
+        var sumPrice = 0;
+        for (item in obj) {
+            let name = obj[item][1];
+            let qty = obj[item][0];
+            let itemPrice = obj[item][2];
+            sum = sum + qty;
+            sumPrice = qty * itemPrice;
+            mystr =  `<div class="testimonial-item text-center">
+                <h5 class="mb-1">${name}</h5>
+                <p>${qty} الكميةx $. ${itemPrice}</p>
+                <p>${sumPrice} : مجموع الفاتورة</p>
+                <p>{{order.phone}} <span>: رقم الهاتف</span></p>
+                <p class="mb-0">{{order.address}} : العنوان</p>
+                <button type="button" class="btn btn-danger m-2">حذف</button>`
+            $('#citems').append(mystr)
+        }
+    
+</script>
+{% endblock dashjs %}

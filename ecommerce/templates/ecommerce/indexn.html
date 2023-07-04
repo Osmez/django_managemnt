@@ -1,0 +1,412 @@
+
+{% extends 'ecommerce/basen.html' %}
+{% block title%} Home - Ecommerce{% endblock %}
+{% block css %}
+    
+{% endblock %}
+
+{% block carousel %}
+
+{% endblock %}
+
+  {% block body %}
+  <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+        <!--/.carousel-indicator -->
+         <ol class="carousel-indicators">
+            <li data-target="#header-carousel" data-slide-to="0" class="active"><span class="small-circle"></span></li>
+            <li data-target="#header-carousel" data-slide-to="1"><span class="small-circle"></span></li>
+            <li data-target="#header-carousel" data-slide-to="2"><span class="small-circle"></span></li>
+        </ol><!-- /ol-->
+        <!--/.carousel-indicator -->
+
+        <!--/.carousel-inner -->
+        <div class="carousel-inner" role="listbox">
+
+            {% for item in items %}
+            <!-- .item -->
+            {% if forloop.first %}
+            <div class="item active">
+                <div class="single-slide-item slide1">
+                    <div class="container">
+                        <div class="welcome-hero-content">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-txt">
+                                            <h4>{{item.product_name}}</h4>
+                                            
+                                            <p>
+                                                {{item.desc}}
+                                            </p>
+                                            <div class="packages-price">
+                                                <p>
+                                                    {{item.price}}
+                                                    <del>price</del>
+                                                </p>
+                                            </div>
+                                            <a class="btn-cart welcome-add-cart" href="{% url 'category' item.category %}">
+                                                <span class="lnr lnr-plus-circle"></span>
+                                                Category List
+                                            </a>
+    <a class="btn-cart welcome-add-cart welcome-more-info" href="{% url 'detailView' item.id item.category %}">
+                                                more info
+                                            </a>
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                                <div class="col-sm-5">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-img">
+    <img src="{{item.image.url}}" alt="slider image">
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                            </div><!--/.row-->
+                        </div><!--/.welcome-hero-content-->
+                    </div><!-- /.container-->
+                </div><!-- /.single-slide-item-->
+
+            </div><!-- /.item .active-->
+            {% else %}
+            <div class="item">
+           
+                <div class="single-slide-item slide1">
+                    <div class="container">
+                        <div class="welcome-hero-content">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-txt">
+                                            <h4>{{item.product_name}}</h4>
+                                            <h2>cloth covered accent chair</h2>
+                                            <p>
+                                                {{item.desc}}
+                                            </p>
+                                            <div class="packages-price">
+                                                <p>
+                                                    {{item.price}}
+                                                    <del>price</del>
+                                                </p>
+                                            </div>
+                                            <a class="btn-cart welcome-add-cart" href="{% url 'category' item.category %}">
+                                                <span class="lnr lnr-plus-circle"></span>
+                                                Category List
+                                            </a>
+                                            <a class="btn-cart welcome-add-cart welcome-more-info" href="{% url 'detailView' item.id item.category %}">
+                                                more info
+                                            </a>
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                                <div class="col-sm-5">
+                                    <div class="single-welcome-hero">
+                                        <div class="welcome-hero-img">
+                                            <img src="{{item.image.url}}" alt="slider image">
+                                        </div><!--/.welcome-hero-txt-->
+                                    </div><!--/.single-welcome-hero-->
+                                </div><!--/.col-->
+                            </div><!--/.row-->
+                        </div><!--/.welcome-hero-content-->
+                    </div><!-- /.container-->
+                </div><!-- /.single-slide-item-->
+
+            </div><!-- /.item .active-->
+             {% endif %}
+            
+            {% endfor %}
+
+           
+        </div><!-- /.carousel-inner-->
+
+    </div><!--/#header-carousel-->
+  {% load static %}
+  
+    
+    
+   
+
+<!--populer-products start -->
+<section id="populer-products" class="populer-products">
+    <h2 class="text-center">Random Products</h2>
+    <div class="container">
+        <div class="populer-products-content">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="single-populer-products">
+                        <div class="single-populer-product-img mt40">
+                            <img src="{{ran.0.image.url}}" alt="populer-products images">
+                        </div>
+                        <h2><a href="#">{{ran.0.product_name}}</a></h2>
+                        <div class="single-populer-products-para">
+                            <p>{{ran.0.desc}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="single-populer-products">
+                        <div class="single-inner-populer-products">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="single-inner-populer-product-img">
+                                        <img src="{{ran.1.image.url}}" alt="populer-products images">
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="single-inner-populer-product-txt">
+                                        <h2>
+                                            <a href="#">
+                                                {{ran.1.product_name}}
+                                            </a>
+                                        </h2>
+                                        <p>
+                                            {{ran.1.desc}}
+                                        </p>
+                                        <div class="populer-products-price">
+                                            <h4>Price <span>{{ran.1.price}}</span></h4>
+                                        </div>
+                                        <a class="btn-cart welcome-add-cart populer-products-btn text-center" href="{% url 'detailView' ran.1.id ran.1.category %}">
+                                            Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="single-populer-products">
+                        <div class="single-populer-products">
+                            <div class="single-populer-product-img">
+                                <img src="{{ran.2.image.url}}" alt="populer-products images">
+                            </div>
+                            <h2><a href="#">{{ran.2.product_name}}</a></h2>
+                            <div class="single-populer-products-para">
+                                <p>{{ran.2.desc}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/.container-->
+
+</section><!--/.populer-products-->
+<!--populer-products end-->
+
+<!--new-arrivals start -->
+<section id="new-arrivals" class="new-arrivals">
+    <div class="container">
+        {% for product, range, nSlides in allProds %}
+        <div class="section-header">
+            <h2>{{product.0.category}}</h2>
+        </div><!--/.section-header-->
+        <div class="new-arrivals-content">
+           
+
+            <div class="row">
+
+                {% for i in product %}
+
+                <div class="col-md-3 col-sm-4">
+                    <div class="single-new-arrival">
+                        <div class="single-new-arrival-bg text-center">
+                            <img id="imgpr{{i.id}}" src="{{i.image.url}}" alt="new-arrivals images">
+                            <div class="single-new-arrival-bg-overlay"></div>
+                            {% if i.in_sale %}
+                            <div class="sale bg-1">
+                                <p>sale</p>
+                            </div>
+                            {% endif %}
+                            <div class="new-arrival-cart">
+                                <p>
+                                    <span class="lnr lnr-cart"></span>
+                                    <!--<a href="#">add <span>to </span> cart</a>-->
+                                    <span id="divpr{{i.id}}" class="divpr">
+                                        <button id="pr{{i.id}}" class="cart">Add to Cart</button>
+                                    </span>
+                                </p>
+                                <p class="arrival-review pull-right">
+                                    <span class="lnr lnr-heart"></span>
+                                    <span class="lnr lnr-frame-expand"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <h4 id="namepr{{i.id}}">{{i.product_name}}</h4>
+                        <p>{{i.category}}</p>
+                        <p class="arrival-product-price" id="pricepr{{i.id}}">{{i.price}}</p>
+                        <a href="{% url 'detailView' i.id i.category %}"> <button id="qv{{i.id}}" class="btn btn-primary cart">Quick View</button> </a>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+            {% endfor %}
+        </div>
+    </div><!--/.container-->
+</section><!--/.new-arrivals-->
+    <!--new-arrivals end -->
+    
+    <!--sofa-collection start -->
+<section id="sofa-collection">
+    <div class="owl-carousel owl-theme" id="collection-carousel">
+        {% for price in prices %}
+        <div class="sofa-collection collectionbg{{forloop.count}}" style="background: url({{price.image.url}})no-repeat;background-size: contain;
+    background-position: center;">
+            <div class="container">
+                <div class="sofa-collection-txt">
+                    <h2>Shop in lowest prices</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                    </p>
+                    <div class="sofa-collection-price">
+                        <h4>strting from <span>{{price.price}}</span></h4>
+                    </div>
+                    <a class="btn-cart welcome-add-cart sofa-collection-btn" href="{% url 'category' price.category %}">
+                        view more
+                    </a>
+                </div>
+            </div>	
+        </div><!--/.sofa-collection-->
+        {% endfor %}
+       
+    </div><!--/.collection-carousel-->
+
+</section><!--/.sofa-collection-->
+<!--sofa-collection end -->
+
+
+{% endblock %}
+{% block js %}
+<script>
+
+if (localStorage.getItem('cart') == null) {
+    var cart = {};
+    
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    updateCart(cart);
+}
+
+// If the add to cart button is clicked, add/increment the item
+$('.divpr').on('click', 'button.cart', function() {
+    var idstr = this.id.toString();
+    console.log(idstr);
+    if (cart[idstr] != undefined) {
+        qty = cart[idstr][0] + 1;
+    } else {
+        qty = 1;
+        name = document.getElementById('name'+idstr).innerHTML;
+        price = document.getElementById('price'+idstr).innerHTML;
+        img =''+ document.getElementById('img'+idstr).src;
+        cart[idstr] = [qty, name, parseInt(price),img];
+    }
+    updateCart(cart);
+});
+
+
+$('#popcart').popover();
+updatePopover(cart);
+/*
+function updatePopover(cart) {
+    var popStr = "";
+    popStr = popStr + "<div class='mx-2 my-2'>";
+    var i = 1;
+    var j = 0;
+    for(var item in cart) {
+        popStr = popStr + "<b>" + i + "</b>. ";
+        popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 15) + "... (Qty: " + cart[item][0] + ')<br>';
+        i = i + 1;
+        j = j + 1;
+    }
+    if(j == 0) {
+        popStr = popStr + "<p><b> No item available in your cart </b></p><div class='mx-2 my-2'>";
+        popStr = popStr + "</div> <a href='/shop'><button class='btn btn-primary'>Add items</button></a> ";
+    }
+    else{
+        popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id='checkout'>Checkout</button></a> <a href='/shop/'><button class='btn btn-primary' onclick='clearCart()' id='clearCart'>Clear Cart</button></a>  ";
+    }
+    document.getElementById("popcart").setAttribute('data-content', popStr);
+    $('#popcart').popover();
+}*/
+$('.divpr').on("click", "button.plus", function() {
+    a = this.id.slice(6, );
+    cart['pr' + a][0] = cart['pr' + a][0] + 1;
+    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    updateCart(cart);
+});
+
+function updatePopover(cart) {
+     var popStr = "";
+    
+    popStr = popStr + "";
+    var i = 1;
+    var j = 0;
+    for(var item in cart) {
+        popStr = popStr + "<li><a href='#'' class='photo'><img src='"+cart[item][3]+"' class='cart-thumb' alt='image' /></a><div class='cart-list-txt'><h6><a href='#''>"+cart[item][1]+"</a></h6><p>"+cart[item][0]+"<span class='price'>"+cart[item][2]+"</span></p></div>";
+        popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 15) + "..Qty: " + cart[item][0] + ')<br>';
+        i = i + 1;
+        j = j + 1;
+    }
+    if(j == 0) {
+        popStr = popStr + "<li> No item available in your cart </li>";
+    }
+    else{
+        popStr = popStr + "</div> <a href='{% url 'ecom-Checkout' %}'><button class='btn btn-primary' id='checkout'>Checkout</button></a> <a href='{% url 'index' %}'><button class='btn btn-primary' onclick='clearCart()' id='clearCart'>Clear Cart</button></a>";
+    }
+    document.getElementById('cart-menu').innerHTML = popStr;
+}
+
+function clearCart() {
+  cart = JSON.parse(localStorage.getItem('cart'));
+  for (var item in cart) {
+    document.getElementById('div' + item).innerHTML = '<button id="'+ item +'" class="btn btn-primary cart">Add to Cart</button>'
+  }
+  localStorage.clear();
+  cart = {};
+  updateCart(cart);
+}
+
+function updateCart(cart) {
+    //console.log(cart);
+    var sum = 0;
+    for (var item in cart) {
+        sum = sum + cart[item][0];
+        document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('badge').innerHTML = sum;
+    updatePopover(cart);
+}
+
+
+
+$('.divpr').on("click", "button.minus", function() {
+    //console.log("minus clicked");
+    a = this.id.slice(7, );
+    cart['pr' + a][0] = cart['pr' + a][0] - 1;
+    cart['pr' + a][0] = Math.max(0, cart['pr' + a][0]);
+    if(cart['pr' + a][0] == 0) {
+        document.getElementById('divpr' + a).innerHTML = '<button id="pr'+a+'" class="btn btn-primary cart">Add to Cart</button>';
+        delete cart['pr'+a];
+    }
+    else {
+        document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    }
+    updateCart(cart);
+
+});
+
+/*
+$('.divpr').on("click", "button.plus", function() {
+    //console.log("plus clicked");
+    a = this.id.slice(6, );
+    cart['pr' + a][0] = cart['pr' + a][0] + 1;
+    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    updateCart(cart);
+});
+*/
+//document.getElementById('categoryList').innerHTML = '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a><div class="dropdown-menu" aria-labelledby="navbarDropdown" >{% for product, range, nSlides in allProds %}<a class="dropdown-item" href="/shop/search/?search={{product.0.category}}">{{product.0.category}}</a>{% endfor %}</div>';
+
+
+</script>
+{% endblock %}

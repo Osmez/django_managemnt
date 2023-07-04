@@ -1,0 +1,56 @@
+{% extends 'shop/dash-base.html' %}
+{% block title%} Orders - Ghosn Alban{% endblock %}
+{% block dashbody %}
+<!-- Other Elements Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <div class="col-sm-12 col-xl-12">
+      <div class="bg-light rounded h-100 p-4">
+          <h6 class="mb-4 text-end">الطلبات</h6>
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th scope="col">Id</th>
+                      <td>التاريخ</td>
+                      <td>اسم الزيون</td>
+                      <td>رقم الزبون</td>
+                      <td>السعر</td>
+                      <td>رابط</td>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for order in orders %}
+                  <tr>
+                      <th scope="row">{{order.order_id}}</th>
+                      <td>{{order.timestamp}}</td>
+                      <td>{{order.name}}</td>
+                      <td>{{order.phone}}</td>
+                      <td>{{order.amount}}</td>
+                      <td><a class="btn btn-sm btn-primary" href="{% url 'order-detail' order.order_id %}">تفصيل</a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+          <div class="btn-toolbar justify-content-end" role="toolbar">
+            <div class="btn-group me-2" role="group" aria-label="First group">
+              {% if orders.has_previous %}
+                <a href="?page=1&{{ params }}" class="btn btn-primary">1</a>
+                <a href="?page={{ orders.previous_page_number }}&{{ params }}" class="btn btn-primary">السابق</a>
+                
+              {% endif %}
+
+              <a href="#" class="btn btn-primary">{{orders.number}}</a>
+
+              {% if orders.has_next %}
+              <a href="?page={{ orders.next_page_number }}&{{ params }}" class="btn btn-primary">التالي</a>
+              <a href="?page={{ orders.paginator.num_pages }}&{{ params }}" class="btn btn-primary">الاخيرة</a>
+              {% endif %}
+            </div>
+            
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+{% endblock dashbody %}

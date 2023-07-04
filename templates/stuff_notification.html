@@ -1,0 +1,92 @@
+<div class="not-row">
+<div class="dropdownd">
+    <span class="badge bg-primary notification-badge" onclick="showNotifications()">البرمجة {{pn.count}}</span>
+    <div class="dropdownd-content text-light d-none" id="notification-container">
+    
+    {% for not in pn %}
+
+            {% if not.notification_type == 1 %}
+            <div class="dropdownd-item-parent">
+            <a href="{% url 'p-not' not.pk not.prg_post.pk %}">{{not.from_user}} Has Posted</a>
+            <span class="dropdownd-item-close" onclick="removeNotification('{% url 'notification-delete' not.pk %}','{{request.path}}')">&times;</span>
+            </div>
+            {% elif not.notification_type == 2 %}
+            <div class="dropdownd-item-parent">
+            <a href="#">{{not.from_user}} Commented on {{not.stuff_name}} post</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+            {% elif not.notification_type == 3 %}
+            <div class="dropdownd-item-parent">
+            <a href="#">{{not.from_user}} Replied on {{not.stuff_name}} post</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+            
+            {% endif %}
+
+       
+
+    {% endfor %}
+    </div>
+    </div>
+
+    <div class="dropdownd">
+    <span class="badge notification-badge" style="background-color:orangered;" onclick="showNotifications()">التسويق {{mn.count}}</span>
+    <div class="dropdownd-content text-light d-none" id="notification-container">
+    
+    {% for m in mn %}
+
+            {% if m.notification_type == 1 %}
+            <div class="dropdownd-item-parent">
+            <a href="#">{{m.from_user}} Has Posted</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+            {% elif m.notification_type == 2 %}
+            <div class="dropdownd-item-parent">
+            <a href="#">{{m.from_user}} Commented on your post</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+            {% elif m.notification_type == 3 %}
+            <div class="dropdownd-item-parent">
+            <a href="#">{{m.from_user}} Replied on your post</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+            
+            {% endif %}
+
+       
+
+    {% endfor %}
+    </div>
+    </div>
+
+    <div class="dropdownd">
+    <span class="badge bg-scondary notification-badge" style="background-color:yellow;" onclick="showNotifications()">التصميم {{gn.count}}</span>
+    <div class="dropdownd-content text-light d-none" id="notification-container">
+    
+    {% for g in gn %}
+
+            {% if g.notification_type == 1 %}
+            <div class="dropdownd-item-parent">
+            <a href="#">{{g.from_user}} Has Posted</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+            {% elif g.notification_type == 2 %}
+            <div class="dropdownd-item-parent">
+            <a href="#">{{g.from_user}} Commented on your post</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+            {% elif g.notification_type == 3 %}
+            <div class="dropdownd-item-parent">
+            <a href="#">{{g.from_user}} Replied on your post</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+            
+            {% endif %}
+
+       
+
+    {% endfor %}
+    </div>
+    </div>
+</div>
+

@@ -1,0 +1,220 @@
+{% extends 'ecommerce/dash-base.html' %}
+{% block edashbody %}
+{% load static %}
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Month Total</p>
+                    <h6 class="mb-0">{{mon_a.amount__sum}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Month</p>
+                    <h6 class="mb-0">{{mon_o}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-area fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Day Bill</p>
+                    <h6 class="mb-0">{{today_revenue.amount__sum}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Day Orders</p>
+                    <h6 class="mb-0">{{today_orders}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sale & Revenue End -->
+
+
+<!-- Sales Chart Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Year Rate</h6>
+                    
+                </div>
+                <canvas id="worldwide-sales"></canvas>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Month rate</h6>
+                    
+                </div>
+                <canvas id="salse-revenue"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sales Chart End -->
+
+
+<!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">اNewest Orders</h6>
+            <a href="">All Orders</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Invoice</th>
+                        <th scope="col">Customer name</th>
+                        <th scope="col">Cash</th>
+                        <th scope="col">Note</th>
+                        <th scope="col">Other</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in new_orders %}
+                    <tr>
+                        
+                        <td><input class="form-check-input" type="checkbox"></td>
+                        <td>{{order.timestamp}}</td>
+                        <td>{{order.id}}</td>
+                        <td>{{order.name}}</td>
+                        <td>{{order.amount}}</td>
+                        <td>Paid</td>
+                        <td><a class="btn btn-sm btn-primary" href="{% url 'order-detail' order.pk %}">Detail</a></td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->
+
+{% endblock %}
+{% block js %}
+
+<script>
+// GET AJAX request
+$.ajax({
+    type: 'GET',
+    url: "{% url 'ajax_months' %}",
+    data: {},
+    success: function (response) {
+        // if not valid user, alert the user
+        let months = response["months"];
+        let months_bucks = response["bucks"];
+        let month_ords = response["ords"]
+        createCTX(months,months_bucks,month_ords);
+    },
+    error: function (response) {
+        console.log(response,"error")
+    }
+})
+
+function createCTX(months,bucks,ords){
+    
+    let bucks_list = []
+    for(let i =0;i < bucks.length;i++){
+        bucks_list[i] = bucks[i].amount__sum
+    }
+    console.log(bucks_list);
+var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+var myChart1 = new Chart(ctx1, {
+    type: "bar",
+    data: {
+        labels: months,
+        datasets: [{
+                label: "Month Cash",
+                data: bucks_list,
+                backgroundColor: "rgba(0, 156, 255, .7)"
+            },
+            {
+                label: "Month Orders",
+                data: ords,
+                backgroundColor: "rgba(0, 156, 255, .5)"
+            },
+        ]
+        },
+    options: {
+        responsive: true
+    }
+});
+}
+
+$.ajax({
+    type: 'GET',
+    url: "{% url 'ajax_days' %}",
+    data: {},
+    success: function (response) {
+        the_sums = []
+
+        // if not valid user, alert the user
+        let days = response["days"];
+        let days_bucks = response["bucks"];
+        let days_orders = response["days_orders"]
+        let dam = response["day_amount"];
+        let dor = response["days_orders"];
+
+    
+        createDaysCtx(days,days_bucks,days_orders);
+        
+    },
+    error: function (response) {
+        console.log(response,"error")
+    }
+})
+
+function createDaysCtx(days,bucks,ords){
+    the_sums = []
+    for(let i =0;i < bucks.length;i++){
+        the_sums[i] = bucks[i].amount__sum
+    }
+    var ctx2 = $("#salse-revenue").get(0).getContext("2d");
+var myChart2 = new Chart(ctx2, {
+    type: "line",
+    data: {
+        labels: days,
+        datasets: [{
+                label: "Day Cash",
+                data: the_sums,
+                backgroundColor: "rgba(0, 156, 255, .5)",
+                fill: true
+            },
+            {
+                label: "Day Orders",
+                data: ords,
+                backgroundColor: "rgba(0, 156, 255, .3)",
+                fill: true
+            }
+        ]
+        },
+    options: {
+        responsive: true
+    }
+});
+}
+
+</script>
+{% endblock js %}

@@ -1,0 +1,51 @@
+{% extends 'ecommerce/dash-base.html' %}
+{% block edashbody %}
+
+<div class="container mt-3 ">
+    <div class="row g-4 justify-content-center">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Add Product</h6>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="prodName" name="prodName">
+                    <label for="name">Product Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="category" name="category">
+                    <label for="category">Category</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="subcategory" name="subcategory">
+                    <label for="category">SubCtegory</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="price" name="price">
+                    <label for="price">Product Price</label>
+                </div>
+                <div class="mb-3">
+                    <input type="checkbox" id="sale" name="sale" value="Bike">
+                    <label for="sale">Product in Sale</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="salev" name="salev">
+                    <label for="salev">Sale Value</label>
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" id="desc" name="desc" style="height: 150px;"></textarea>
+                    <label for="desc">Product Description</label>
+                </div>
+
+                <div class="mt-3">
+                    <label for="img" class="form-label">Product Image</label>
+                    <input class="form-control form-control-lg" id="img" name="img" type="file" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Addة</button>
+            </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock edashbody %}

@@ -1,0 +1,8 @@
+<ul class="list-group latest-post p-2 ">
+    
+    {% for post in posts %}
+    <a class="text-dark " href="{% url 'detail' post.id %}">
+        <li class="list-group-item  latest-post-item p-1">{{post.title}}</li>
+    </a>
+    {% endfor %}
+</ul>

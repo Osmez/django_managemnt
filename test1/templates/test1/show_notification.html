@@ -1,0 +1,36 @@
+<div class="not-row">
+<div class="dropdownd">
+    <span class="badge bg-primary notification-badge" onclick="showNotifications()">البرمجة {{notification.count}}</span>
+    <div class="dropdownd-content text-light d-none" id="notification-container">
+    
+    {% for not in notification %}
+    
+        {% if not.notification_type == 1 %}
+
+            <div class="dropdownd-item-parent">
+            <a href="{% url 'progrm-detail-reply' not.prg_post.pk not.prg_Comment.pk %}">{{not.from_user}} اضاف موضوع</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+
+        {% elif not.notification_type == 2 %}
+
+            <div class="dropdownd-item-parent">
+            <a href="{% url 'progrm-detail-reply' not.prg_post.pk not.prg_Comment.pk %}">{{not.from_user}} علق على موضوعك</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+
+        {% elif not.notification_type == 3 %}
+
+            <div class="dropdownd-item-parent">
+            <a href="{% url 'progrm-detail-reply' not.prg_post.pk not.prg_Comment.pk %}">{{not.from_user}} رد على تعليقك</a>
+            <span class="dropdownd-item-close">&times;</span>
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+    </div>
+</div>
+</div>
+    
+

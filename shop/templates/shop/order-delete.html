@@ -1,0 +1,25 @@
+{% extends 'shop/basic.html' %}
+{% block title%} Order - Delete - Ghosn Alban{% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-3 col-sm-6">
+            <a href="{% url 'order-detail' object.pk %}" class="btn btn-light">الرجوع</a>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5 col-sm-12">
+            <h5>هل أنت متأكد؟</h5>
+            <p>لا يمكنك التراجع بعد الحذف</p>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-danger">حذف</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock %}

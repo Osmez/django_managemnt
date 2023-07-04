@@ -1,0 +1,319 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css" integrity="sha384-JvExCACAZcHNJEc7156QaHXTnQL3hQBixvj5RV5buE7vgnNEzzskDtx9NQ4p6BJe" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    -->
+
+    <link rel="stylesheet" href="{% static 'shop/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/assets/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/assets/css/font/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/assets/css/swiper.min.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/assets/css/ion.rangeSlider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/assets/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/assets/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/assets/css/stylelub.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/assets/css/responsive.css' %}">
+    <title>{% block title%} {% endblock %}</title>
+    <link rel = "icon" href ="http://127.0.0.1:8000/media/shop/images/logo.png" type = "image/x-icon">
+    
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+      .popover-header {
+        background-color: #dfd7d7;
+        text-align: right;
+      }
+
+      @media only screen and(max-width:600){
+      .nav-item a {
+        margin-left: 12px;
+      }
+    }
+
+      {% block css %} {% endblock %}
+    </style>
+  </head>
+  <body>    
+  <div class="header">
+    <header class="full-width">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 mainNavCol">
+                    <!-- logo -->
+                    <a href="{% url 'index' %}">
+                 <h1>GhosnAlbaan</h1>
+                    </a>
+                    <!-- logo -->
+                    <div class="main-search mainNavCol">
+                        <form class="main-search search-form full-width" method="get" action="{% url 'Search' %}">
+                            <div class="row">
+                                <!-- location picker -->
+                                <div class="col-lg-6 col-md-5">
+                                    <a href="#" class="delivery-add p-relative"> <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                                        <span class="address" id="the-address">الرياض - السعودية</span>
+                                    </a>
+                                    <div class="location-picker">
+                                        <p style="display:block;color:red"><i class="fas fa-map-marker-alt"></i> الرياض - السعودية</p>
+                                        <p style="display:block;color:red">فرع اخر</p>
+                                    </div>
+                                </div>
+                                <!-- location picker -->
+                                <!-- search -->
+                          <div class="col-lg-6 col-md-7">
+                            <div class="search-box padding-10">
+                                <input type="text" type="search" name="search" id="search" class="form-control" placeholder="Pizza, Burger, Chinese">
+                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            </div>
+                        </div>
+                            </div>
+                           
+                        </form>
+                        
+                    </div>
+                    <div class="right-side fw-700 mainNavCol">
+                        
+                        
+                        
+                        <!-- mobile search -->
+                        <div class="mobile-search">
+                            <a href="#" data-toggle="modal" data-target="#search-box"> <i class="fas fa-search"></i>
+                            </a>
+                        </div>
+                        <!-- mobile search -->
+                        <!-- user account -->
+                        <div class="user-details p-relative">
+                          <a href="#" class="text-light-white fw-500">
+                            <i class="fa fa-user" style="color:red"></i>
+                          </a>
+                          <div class="user-dropdown">
+                              {% if user.is_authenticated %}
+                              <ul>
+                                  <li>
+                                      <a href="{% url 'TrackingStatus' %}">
+                                          <div class="icon"><i class="flaticon-rewind"></i>
+                                          </div> <span class="details">طلب قديم</span>
+                                      </a>
+                                  </li>
+                                  <li>
+                                      <a href="{% url 'orderView' %}">
+                                          <div class="icon"><i class="flaticon-rewind"></i>
+                                          </div> <span class="details">استعراض الطلبات</span>
+                                      </a>
+                                  </li>
+                                  {% if request.user.is_staff %}
+                                  <li>
+                                    <a href="{% url 'add-item' %}">
+                                        <div class="icon"><i class="flaticon-breadbox"></i>
+                                        </div> <span class="details">الإدارة</span>
+                                    </a>
+                                </li>
+                                  {% endif %}
+                              </ul>
+                              {% else %}
+                              <div class="user-footer"> <span class="text-light-black">ادخل الرقم</span> <button type="button" class="btn btn-success mx-2" data-toggle="modal" data-target="#signupModal">SignUp</button></div>
+                              {% endif %}
+                          </div>
+                      </div>
+                        <!-- mobile search -->
+                        <div class="gem-points">
+                            <a href="#"> <i class="fas fa-concierge-bell"></i>
+                                <span>Order Now</span>
+                            </a>
+                        </div>
+                        <!-- user notification 
+                        <div class="cart-btn notification-btn">
+                            <a href="#" class="text-light-green fw-700"> <i class="fas fa-bell"></i>
+                                <span class="user-alert-notification"></span>
+                            </a>
+                            <div class="notification-dropdown">
+                                <div class="product-detail">
+                                    <a href="#">
+                                        <div class="img-box">
+                                            <img src="{% static 'shop/assets/img/shop-1.png' %}" class="rounded" alt="image">
+                                        </div>
+                                        <div class="product-about">
+                                            <p class="text-light-black">Lil Johnny’s</p>
+                                            <p class="text-light-white">Spicy Maxican Grill</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="rating-box">
+                                    <p class="text-light-black">How was your last order ?.</p> <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                                    <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                                    <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                                    <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                                    <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                                    <cite class="text-light-white">Ordered 2 days ago</cite>
+                                </div>
+                            </div>
+                        </div>
+                        user notification -->
+                        <!-- user cart -->
+                        <div class="cart-btn cart-dropdown">
+                            <a href="#" class="text-light-green fw-700"> <i class="fas fa-shopping-bag"></i>
+                                <span class="user-alert-cart" id="cart">0</span>
+                            </a>
+                            <div class="cart-detail-box">
+                                <div class="card">
+                                    <div class="card-header padding-15">طلباتك</div>
+                                    <div class="card-body no-padding" id="cart-card-top">
+                                        
+                                    </div>
+                                    <div class="card-footer padding-15"> <a href="{% url 'Checkout' %}" class="btn-first green-btn text-custom-white full-width fw-500">صفحة المشتريات</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- user cart -->
+                    </div>
+                </div>
+                <div class="col-sm-12 mobile-search">
+                    <div class="mobile-address">
+                        <!--<a href="#" class="delivery-add" data-toggle="modal" data-target="#address-box"> <span class="address">Brooklyn, NY</span>
+                        </a>-->
+                        <form class="search-form full-width" method="Get" action="{% url 'Shop-Search' %}" accept-charset="utf-8">
+                        <div class="col-lg-6 col-md-7">
+                            <div class="search-box padding-10">
+                                
+                                <input type="search" name="search" id="search" class="form-control" placeholder="Pizza, Burger, Chinese" aria-label="Search">
+                                
+                                <button class="btn btn-outline-secondary" type="submit">بحث</button>
+                            </div>
+                        </div>
+                        </form>
+                        
+                    </div>
+                    <!--
+                    <div class="sorting-addressbox"> <span class="full-address text-light-green">Brooklyn, NY 10041</span>
+                        <div class="btns">
+                            <div class="filter-btn">
+                                <button type="button"><i class="fas fa-sliders-h text-light-green fs-18"></i>
+              </button> <span class="text-light-green">Sort</span>
+                            </div>
+                            <div class="filter-btn">
+                                <button type="button"><i class="fas fa-filter text-light-green fs-18"></i>
+              </button> <span class="text-light-green">Filter</span>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div class="main-sec"></div>
+<!--Navigation-->
+
+    <!-- Login Modal 
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header flex-row-reverse" style="background-color: rgb(111 202 203);">
+            <h5 class="modal-title" id="loginModal">سجل دخولك هنا</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/shop/login/" method="post">{% csrf_token %}
+              <div class="text-left my-2">
+                  <b><label for="username">اسم المستخدم</label></b>
+                  <input dir="rtl" class="form-control" id="loginusername" name="loginusername" placeholder="ادخل الاسم" type="text" required pattern="^[a-z]{3,15}$">
+              </div>
+              <div class="text-left my-2">
+                  <b><label for="password">كلمة السر</label></b>
+                  <input dir="rtl" class="form-control" id="loginpassword" name="loginpassword" placeholder="ادخل كلمة السر" type="password" required data-toggle="password">
+              </div>
+              <button type="submit" class="btn btn-success">ارسال</button>
+              <a href="/shop/reset_password/" style="padding-left: 250px;">نسيت كلمة السر ؟</a>
+            </form>
+            <p class="mb-0 mt-1">لا تملك حساب؟ <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#signupModal">انشئ حساب الان</a>.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+-->
+    <!--Sign up Modal-->
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header flex-row-reverse" style="background-color: rgb(111 202 203);">
+            <h5 class="modal-title" id="signupModal">انشئ حساب هنا</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/signup/">
+              {% csrf_token %}
+                  <input type="tel" class="form-control" id="lphone" name="lphone" placeholder="رقم الهاتف" required pattern="[0-9]{10}">
+               
+              <button type="submit" class="btn btn-success">سجل</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible mb-0" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
+            {{ message }}
+          </div>
+        {% endfor %}
+    {% endif %}
+    {% block body %} {% endblock %}
+    <div class="footer container-fluid bg-dark text-light">
+        <p class="text-center py-2 mb-0">Copyright © 2021 Dollar369</p>
+    </div>
+
+
+  <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS 
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+    -->
+    <!-- jQuery -->
+    <script src="{% static 'shop/assets/js/jquery.min.js' %}"></script>
+    <!-- Popper -->
+    <script src="{% static 'shop/assets/js/popper.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script src="{% static 'shop/assets/js/bootstrap.min.js' %}"></script>
+    <!-- Range Slider -->
+    <script src="{% static 'shop/assets/js/ion.rangeSlider.min.js' %}"></script>
+    <!-- Swiper Slider -->
+    <script src="{% static 'shop/assets/js/swiper.min.js' %}"></script>
+    <!-- Nice Select -->
+    <script src="{% static 'shop/assets/js/jquery.nice-select.min.js' %}"></script>
+    <!-- magnific popup -->
+    <script src="{% static 'shop/assets/js/jquery.magnific-popup.min.js' %}"></script>
+    <!-- Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnd9JwZvXty-1gHZihMoFhJtCXmHfeRQg"></script>
+    <!-- sticky sidebar -->
+    <script src="{% static 'shop/assets/js/sticksy.js' %}"></script>
+    <!-- Munch Box Js -->
+    <script src="{% static 'shop/assets/js/munchbox.js' %}"></script>
+    <script>
+    
+      $('#clear-loc').on('click', function() {
+        
+        localStorage.clear();
+        location.reload();
+      })
+    </script>
+    {% block js %} {% endblock %}
+  </body>
+</html>

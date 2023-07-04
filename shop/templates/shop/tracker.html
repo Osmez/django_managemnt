@@ -1,0 +1,132 @@
+{% extends 'shop/basic.html' %}
+{% block title%} Tracker - Food Mania{% endblock %}
+{% block css %}
+    .footer {
+      position: fixed;
+      bottom: 0;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+{% endblock %}
+{% block body %}
+
+<div class="container pt-5">
+    <div class="col my-4">
+        <h2>ادخل معرف الطلب ورقم الهاتف المسجل به للعثور على طلبك</h2>
+        <form method="post" action="#" id="trackerForm">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-4 d-hidden">
+                    <b><label for="name">:الاسم</label></b>
+                    <input dir="rtl" type="text" class="form-control" id="name" name="name" placeholder="الاسم">
+                </div>
+                <div class="form-group col-md-4">
+                    <b><label for="orderId">: معرف الطلب</label></b>
+                    <input type="number" class="form-control" id="orderId" name="orderId" placeholder="Order Id" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <b><label for="tphone">: الهاتف</label></b>
+                    <input type="tel" class="form-control" id="tphone" name="tphone" placeholder="xxxxxxxxxxx" pattern="[0-9]{10}">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">ابحث</button>
+            </div>
+        </form>
+    </div>
+    <div class="col my-4" id="mydiv">
+    </div>
+</div>
+
+
+{% endblock %}
+{% block js %}
+<script>
+
+$('#popcart').popover();
+updatePopover(cart);
+
+function updatePopover(cart) {
+    var popStr = "";
+    popStr = popStr + "<h5>  <a href='/checkout'><button class='btn btn-primary'>اضافة طلب</button></a> </h5><div class='mx-2 my-2'>";
+    document.getElementById("popcart").setAttribute('data-content', popStr);
+    $('#popcart').popover();
+}
+
+$('#trackerForm').submit(function(event) {
+    $('#mydiv').empty();
+    var formData = {
+        'orderId': $('input[name=orderId]').val(),
+        'tphone': $('input[name=tphone]').val(),
+        
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+
+    $.ajax({
+            type: 'POST',
+            url: '/tracker/',
+            data: formData,
+            encode: true
+        })
+
+        .done(function(data) {
+//            console.log(data)
+            $('#mydiv').empty();
+            data = JSON.parse(data);
+
+            mydiv = `<div class="my-4">
+                        <h2>حالة الطلب</h2>
+                        <ul class="list-group" id="items">
+                        </ul>
+                    </div>`;
+            $('#mydiv').append(mydiv);
+
+            if (data['status'] == "success") {
+                updates = data['updates'];
+
+                mydiv = `<div class="my-4">
+                            <h2>تفاصيل الطلب</h2>
+                            <ul class="list-group" id="citems">
+                            </ul>
+                        </div>`;
+                $('#mydiv').append(mydiv);
+
+                for (i = 0; i < updates.length; i++) {
+                    let text = updates[i]['text'];
+                    let time = updates[i]['time'];
+                    var s = new Date(time).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'}); 
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">${text}<span class="badge badge-primary badge-pill">${s}</span></li>`
+                    $('#items').append(mystr);
+                }
+
+                // fill products details
+                cart = JSON.parse(data['itemsJson']);
+                // console.log(typeof(cart));
+
+                for (item in cart) {
+                    let name = cart[item][1];
+                    let qty = cart[item][0];
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                             ${name}
+                             <span class="badge badge-primary badge-pill">${qty}</span>
+                             </li>`
+                    $('#citems').append(mystr);
+                }
+            }
+            else if (data['status'] == "Invalid") {
+                alert("your Password is Wrong!!");
+                mystr = `<li class="list-group-item d-flex justify-content-between align-items-center"></li>`
+            	$('#items').append(mystr);
+            }
+            else {
+                mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">للاسف هنالك خطأ</li>`
+            	$('#items').append(mystr);
+            }
+
+        });
+        event.preventDefault();
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'shop/basic.html' %}
+
+{% block title%} Checkout - Food Mania{% endblock %}
+{% block css %}
+    #cont {
+        min-height : 609px;
+    }
+    #cont2 {
+        min-height : 626px;
+    }
+{% endblock %}
+{% block body %}
+
+
+<div class="container" id="cont">
+    <div class="col my-3">
+        <span id="title" style="color:white"><h2> استعراض المشتريات </h2></span>
+        <div class="my-2">
+            <ul class="list-group" id='items'>
+            </ul>
+        </div>
+    </div>
+    <div class="col my-4">
+        <span id="info">
+        <h2 style="color:white"> ادخل العنوان والتفاصيل</h2>
+        <form method="post" action="{% url 'Checkout' %}">{% csrf_token %}
+            <input type="hidden" name="itemsJson" id="itemsJson">
+            <input type="hidden" name="mess" id="mess">
+            <input type="hidden" name="amount" id="amount">
+            <input type="hidden" name="user_id" id="user_id" value="{{ request.user.id }}">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="name">:الاسم</label>
+                    <input dir="rtl" type="text" class="form-control" id="name" name="name" placeholder="الاسم" value="osama" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Address1">:العنوان</label>
+                <input dir="rtl" type="text" class="form-control" id="address1" name="address1" placeholder="عنوان"  required>
+            </div>
+            <div class="form-group">
+                <label for="Address2">:عنوان 2</label>
+                <input dir="rtl" type="text" class="form-control" id="address2" name="عنوان" placeholder="Apartment, studio, or floor">
+            </div>
+           
+            <div class="form-group">
+                <label for="phone">رقم لهاتف</label>
+                <input dir="rtl" type="tel" class="form-control" id="phone" name="phone" placeholder="xxxxxxxxxxx" pattern="[0-9]{10}" required>
+            </div>
+            <button type="submit" class="btn btn-primary" name="cashOnDelivery">الدفع عند التوصيل</button>
+        </form>
+        </span>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    var message = '';
+if (localStorage.getItem('cart') == null) {
+    var cart = {};
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    console.log(cart)
+}
+
+var sum = 0;
+var sumPrice = 0;
+var totalPrice = 0;
+if ($.isEmptyObject(cart)) {
+    // If object is empty
+    mystr = "<div class='alert alert-info'><font style='font-size:22px'>"
+    mystr = mystr + "<center>لاسوجد طلبات ,الرجاء اضافة طلب</center>"
+    mystr = mystr + "<center>Click <a href='ghosnalban/' class='alert-link'>استعراض الطلبات</as.</center></font></div>";
+    $('#items').append(mystr);
+    document.getElementById('info').innerHTML = "";
+    document.getElementById('title').innerHTML = "";
+} else {
+    var i = 0;
+    for (item in cart) {
+        let name = cart[item][1];
+        let qty = cart[item][0];
+        let itemPrice = cart[item][2];
+        sum = sum + qty;
+        sumPrice = qty * itemPrice;
+        totalPrice = totalPrice + sumPrice;
+
+        //****************************************************************************************
+        message += '\u200E'+sumPrice+'\u200E'+':السعر,\n' + '\u200E' + qty + '\u200E' + ' :الكمية,\n '+ '\u200E' + name + '\u200E'+' : اسم المادة \n'+ '....\n' ; 
+
+
+        mystr = `<li class="list-group-item d-flex flex-row-reverse justify-content-between align-items-center" style="color:black">${++i} : ${name}<span class="badge badge-primary badge-pill">${qty} x $ ${itemPrice} = $ ${sumPrice}</span></li>`;
+        $('#items').append(mystr);
+    }
+    message += '\u200E' + totalPrice + '\u200E' + ': السعر الاجمالي';
+    mystr = `<li class="list-group-item d-flex flex-row-reverse justify-content-between align-items-center" style="background: bisque;color:black">:السعر الكلي</span><span class="badge badge-danger badge-pill" id="totalPrice">Rs. ${totalPrice} /-</span></li>`;
+    $('#items').append(mystr);
+   
+}
+document.getElementById('cart').innerHTML = sum;
+document.getElementById('totalPrice').innerHTML = totalPrice;
+
+//*******************************************************************************************
+$('#mess').val(message);
+$('#itemsJson').val(JSON.stringify(cart));
+$('#amount').val($('#totalPrice').html());
+
+
+
+</script>
+{% endblock %}

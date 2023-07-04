@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ar">
+{% load static %}
+{% load custom_not %}
+{% load hasgroup %}
+
+
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% if title %}
+        <title>Dollar369 | {{title}}</title>
+        {% else %}
+        <title>Dollar369</title>
+        {% endif %}
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" type="text/css" href="/css/main.css"> -->
+        <link rel="stylesheet" href="{% static 'test1/css/bootstrap.min.css' %}">
+        <link rel="shortcut icon" href="{% static 'test1/images/dollar.png' %} ">
+        <link rel="stylesheet" href="{% static 'test1/css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'test1/css/start.css' %}">
+        <style>
+            .admin-sign{
+    background-color:#d9bb58;
+    width:10px;
+    height:10px;
+    display:inline-block;
+    border-radius:50%;
+}
+        </style>
+    </head>
+    <body>
+        <header>
+            <!-- start navbar -->
+           
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <a class="navbar-brand" href="#">
+                            <img src="{% static 'test1/images/dollar.png' %}" alt="شعار الشركة" width="30px">
+                            Dollar369</a>
+
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                    
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ">
+                            <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'home' %}">الرئيسية<span class="sr-only">(current)</span></a>
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                أقسام الشركة
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/marketing"> التسويق </a>
+                                <a class="dropdown-item" href="/graphic">التصميم </a>
+                                <a class="dropdown-item" href="/programming">البرمجة </a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#"> الإدارة </a>
+                            </div>
+                        </li>
+                        {% if user.is_authenticated %}
+                        {% if request.user.is_staff %}
+                        <li class="nav-item">
+                        {% stuff_notif %}
+                        </li>
+                        {% elif request.user|has_group:"Programming" %}
+                        <li class="nav-item">
+                        {% show_notif %}
+                        </li>
+                        {% elif request.user|has_group:"GraphicDesign" %}
+                        <li class="nav-item">
+                        {% show_gnotif %}
+                        </li>
+                        {% elif request.user|has_group:"Marketing" %}
+                        {% show_mnotif %}
+                        {% endif %}
+                        {% endif %}
+                        
+                        </ul>
+                        {% if user.is_authenticated %}
+
+                        <ul class="navbar-nav mr-auto">
+                                <li class="nav-item"><a class="nav-link" href="{% url 'new_post' %}">  كتابة منشور </a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">  الملف الشخصي </a></li>
+
+                                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">تسجيل الخروج </a></li>
+                            </ul>
+                        {% else %}
+
+                        <ul class="navbar-nav mr-auto">
+                                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">تسجيل دخول</a></li>
+                            
+                                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">تسجيل</a></li>
+                            </ul>
+                        {% endif %}
+
+                      
+                    </div>
+                </nav>
+                           
+                   <!-- end navbar -->  
+        </header>
+
+        <section>
+            <div class="container">
+                <div class="row mt-4">
+                    <div class="col-md-8 ">
+                        {% block content %}
+
+                        {% endblock content %}
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <h3 class="text-center bg-secondary text-light p-2">آخر المنشورات</h3>
+                            {% include 'test1/latest_posts.html' %}
+
+                           
+                            
+                        </div>
+                         {% block pers %}
+
+                        {% endblock pers %}
+        
+                        <div class="card mb-3 p-3">
+                          
+                            
+                                {% if request.user.is_staff %}
+                                <p class="t-100 text-center">{{count}} - طلبات</p>
+                                        <a class="btn btn-warning" href="{% url 'accept-register' %}">
+                                            قبول طلبات الاضافة
+                                            </a>
+                                           
+                                    {% else %}
+                                        <p>Admin</p>
+                                    {% endif %} 
+                                
+                                
+                           
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        <footer class="bg-secondary">
+            <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="card-group mt-3">
+                                <div class="card m-3 ">
+                                    <h3 class="card-title text-center border-bottom p-2 mb-3">من نحن</h3>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                                <img src="{% static 'test1/images/logo.jpeg' %}" alt="شعار الشركة" width="100px">
+
+                                        </div>
+                                        أهلا بكم في Dollar369  . 
+                                        
+
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="card m-3">
+                                            <h3 class="card-title text-center border-bottom p-2 mb-3">ملاحظات هامة</h3>
+                                            <div class="card-body">
+                                                <ul>
+                                                    <li> تم تسجيل دخولك بنجاح</li>
+                                                    <li> تابع مهامك بانتظام </li>
+                                                    <li> قم بنشر مهامك عند نتهائها </li>
+                                                    <li> 
+                                                    سنقوم بتقييم ادائك والإجابة على الاسئلة
+                                                    </li>
+                                                </ul>
+                                               
+                                            </div> 
+                                </div>  
+    
+                                        
+                                <div class="card m-3">
+                                                <h3 class="card-title text-center border-bottom p-2 mb-3">وسائل التواصل الاجتماعي</h3>
+                                                <h4 class="card-body text-center">
+                                                   <a class="text-secondary" href="www.facebock.com"><i class="fab fa-facebook"></i></a> 
+                                                   <a class="text-secondary" href="www.twitter.com"><i class="fab fa-twitter"></i></a> 
+                                                   <a class="text-secondary" href="www.instagram.com"><i class="fab fa-instagram"></i></a> 
+                                                   <a class="text-secondary" href="www.telegram.com"><i class="fab fa-telegram"></i></a>
+                                                    <a class="text-secondary" href="www.youtube.com"><i class="fab fa-youtube"></i></a>
+                                                    <a class="text-secondary" href="www.linkedin.com"><i class="fab fa-linkedin"></i></a>
+                                                   
+        
+                                                </h4>
+    
+                                        
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                        
+                        <div class="row  p-2">
+                            <div class="col-md text-center">
+                                    <small class="text-light">&copy;جميع الحقوق محفوظة</small>
+            
+                            </div>
+                            
+                           
+                        </div>
+                    
+                    
+
+            </div>
+          
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integr="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="crossorigin="anonymous"></script>
+        <script src="{% static '/test1/js/jquery-3.4.1.slim.min.js' %}"></script>
+        <script src="{% static '/test1/js/popper.min.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+        <script src="{% static '/test1/js/fontawesome-all.min.js' %}"></script>
+        <script src="{% static '/test1/js/func.js' %}"></script>
+        <script>
+            function showNotifications() {
+                const container = document.getElementById('notification-container');
+            
+                if (container.classList.contains('d-none')) {
+                    container.classList.remove('d-none');
+                } else {
+                    container.classList.add('d-none');
+                }
+            }
+            
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            function removeNotification(removeNotifiURL, redirectURL){
+                const csrftoken = getCookie('csrftoken');
+                let xmlhttp = new XMLHttpRequest();
+            
+                xmlhttp.onreadystatechange = function(){
+                    if(xmlhttp.readyState == XMLHttpRequest.DONE){
+                        if(xmlhttp.status == 200){
+                            window.location.replace(redirectURL);
+                        }else{
+                            alert('There was an error');
+                        }
+                    }
+                }
+                xmlhttp.open("DELETE", removeNotifiURL, true);
+                xmlhttp.setRequestHeader("X-CSRFToken", csrftoken);
+                xmlhttp.send();
+            }
+        </script>
+        {% block js %}
+        {% endblock js %}
+    </body>
+</html>

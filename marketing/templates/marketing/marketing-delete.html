@@ -1,0 +1,23 @@
+{% extends 'test1/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-3 col-sm-6">
+            <a href="{% url 'mark-detail' object.pk %}" class="btn btn-light">الجوع</a>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5 col-sm-12">
+            <h5>هل أنت متأكد؟</h5>
+            <p>أنت على وشك حذف هذا المنشور,لايمكنك التراجع بعد الحذف</p>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-danger">حذف</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock content %}

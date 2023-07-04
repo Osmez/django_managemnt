@@ -1,0 +1,79 @@
+@font-face{
+    font-family: 'Tajawal';
+    src: url('../fonts/Tajawal-Regular.ttf') format("truetype"),
+         local('Tajawal');
+}
+
+html,body{
+    direction: rtl;
+    text-align: right;
+    color: #fff !important;
+}
+
+
+body{
+    font-family: 'Tajawal',sans-serif;
+    color:#000 !important;
+}
+
+.dropdown-menu .dropdown-item{
+    text-align: right;
+}
+
+.bg-secondary{
+    background-color: #000 !important;
+}
+
+.bg-light{
+    background-color: #000 !important;
+}
+
+/* start sidebar */
+.latest-post, .latest-comment{
+    padding: 0 15px;
+}
+.latest-post .latest-post-item, .latest-comment .latest-comment-item{
+    padding: 6px;
+}
+.latest-post li:first-child, .latest-comment li:first-child{
+    border-top: 0;
+}
+.latest-post li:last-child, .latest-comment li:last-child{
+    border-bottom: 1;
+    padding-bottom: 0;
+}
+
+.comment{
+    background-color: #f8f8f8;
+    border: 1px dashed #ccc;
+}
+
+.btn-editing{
+    float: left;
+}
+
+.navbar-brand{
+    color: rgb(217, 89, 219) !important;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav-link{
+    color: #ffff !important;
+
+}
+
+.post-image{
+    max-width: 100% ;
+    height:100vh ;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+
+admin-sign{
+    background-color:#d9bb58;
+    width:10px;
+    height:10px;
+    display:inline-block;
+}

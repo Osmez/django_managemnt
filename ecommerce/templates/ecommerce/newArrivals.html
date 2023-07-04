@@ -1,0 +1,103 @@
+{% extends 'ecommerce/basen.html' %}
+{% block title%} New Arrivals - Ecommerce{% endblock %}
+{% load static %}
+
+{% block body %}
+<!--new-arrivals start -->
+<section id="new-arrivals" class="new-arrivals">
+    <div class="container">
+        
+        <div class="section-header">
+           
+        </div><!--/.section-header-->
+        <div class="new-arrivals-content">
+           
+
+            <div class="row justify-content-center mt-2">
+                {% for prod in month_prods %}
+                <h2>Added This Month</h2>
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="single-new-arrival">
+                        <div class="single-new-arrival-bg">
+                            <img id="imgpr{{prod.id}}" src="{{prod.image.url}}" alt="new-arrivals images" width="200px" height="auto">
+                            <div class="single-new-arrival-bg-overlay"></div>
+                            {% if prod.in_sale %}
+                            <div class="sale bg-1">
+                                <p>sale</p>
+                            </div>
+                            {% endif %}
+                            <div class="new-arrival-cart">
+                                <p>
+                                    <span class="lnr lnr-cart"></span>
+                                    <!--<a href="#">add <span>to </span> cart</a>-->
+                                   
+                                </p>
+                                <p class="arrival-review pull-right">
+                                    <span class="lnr lnr-heart"></span>
+                                    <span class="lnr lnr-frame-expand"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <h4 id="namepr{{prod.id}}">{{prod.product_name}}</h4>
+                        <p class="arrival-product-price" id="pricepr{{product.0.id}}">{{prod.price}}</p>
+                        <a href="{% url 'detailView' prod.id prod.category %}"> <button id="qv{{product.id}}" class="btn btn-primary cart">Detail</button> </a>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+           
+        </div>
+    </div><!--/.container-->
+</section><!--/.new-arrivals-->
+    <!--new-arrivals end -->
+{% endblock %}
+{% block js %}
+<script>
+// console.log({{request.user.id}});
+
+if (localStorage.getItem('cart') == null) {
+    var cart = {};
+    
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    updateCart(cart);
+}
+
+updatePopover(cart);
+
+function updatePopover(cart) {
+    var popStr = "";
+    
+    popStr = popStr + "";
+    var i = 1;
+    var j = 0;
+    for(var item in cart) {
+        popStr = popStr + "<li><a href='#'' class='photo'><img src='"+cart[item][3]+"' class='cart-thumb' alt='image' /></a><div class='cart-list-txt'><h6><a href='#''><span class='price'>"+cart[item][2]+"</span></p></div>";
+        popStr = popStr + "... (Qty: " + cart[item][0] + ')<br>';
+        i = i + 1;
+        j = j + 1;
+    }
+    if(j == 0) {
+        popStr = popStr + "<li> No item available in your cart </li>";
+    }
+    else{
+        popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id='checkout'>Checkout</button></a> <a href='/shop/'><button class='btn btn-primary' onclick='clearCart()' id='clearCart'>Clear Cart</button></a>";
+    }
+    document.getElementById('cart-menu').innerHTML = popStr;
+}
+
+function updateCart(cart) {
+    //console.log(cart);
+    var sum = 0;
+    for (var item in cart) {
+        sum = sum + cart[item][0];
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('badge').innerHTML = sum;
+    updatePopover(cart);
+}
+</script>
+{% endblock %}

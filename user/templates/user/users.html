@@ -1,0 +1,21 @@
+{% extends 'test1/base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        {% for user in users %}
+            <div class="col-md-4">
+                <img width="200px" height="auto" src="{{user.prfile.image.url}}">
+                {% for profile in profiles %}
+                    {% if user.username == profile.user.username %}
+                    <img width="200px" height="auto" src="{{profile.image.url}}">
+                    {% endif %}
+                {% endfor %}
+                <h3>{{user.username}}</h3>
+                <p>{{user.email}}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %} 

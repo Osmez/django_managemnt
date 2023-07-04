@@ -1,0 +1,54 @@
+{% extends 'ecommerce/dash-base.html' %}
+{% block title%} Orders - Ecommerce{% endblock %}
+{% block edashbody %}
+<!-- Other Elements Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <div class="col-sm-12 col-xl-6">
+      <div class="bg-light rounded h-100 p-4">
+          <h6 class="mb-4 text-end">Orders</h6>
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th scope="col">Id</th>
+                      <td>Product Name</td>
+                      <td>Category</td>
+                      <td>Price</td>
+                      <td>Detail</td>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                  <tr>
+                      <th scope="row">{{item.pk}}</th>
+                      <td>{{item.product_name}}</td>
+                      <td>{{item.category}}</td>
+                      <td>{{item.price}}</td>
+                      <td><a class="btn btn-sm btn-primary" href="{% url 'eaproductView' item.pk %}">Detail</a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+          <div class="btn-toolbar justify-content-end" role="toolbar">
+            <div class="btn-group me-2" role="group" aria-label="First group">
+              {% if orders.has_previous %}
+                <a href="?page=1&{{ params }}" class="btn btn-primary">1</a>
+                <a href="?page={{ items.previous_page_number }}&{{ params }}" class="btn btn-primary">Previous</a>
+                
+              {% endif %}
+
+              <a href="#" class="btn btn-primary">{{items.number}}</a>
+
+              {% if orders.has_next %}
+              <a href="?page={{ items.next_page_number }}&{{ params }}" class="btn btn-primary">Next</a>
+              <a href="?page={{ items.paginator.num_pages }}&{{ params }}" class="btn btn-primary">Last</a>
+              {% endif %}
+            </div>
+            
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+{% endblock edashbody %}

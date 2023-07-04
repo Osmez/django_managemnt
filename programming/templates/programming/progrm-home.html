@@ -1,0 +1,100 @@
+{% extends 'test1/base.html' %}
+{% load filename %}
+{% load check_admin %}
+{% block content %}
+
+<div class="row">
+  
+  
+  <a class="btn btn-primary mb-3 mr-2 float-right" href="{% url 'progrm-new' %}" role="button">إضافة منشور <i class="fas fa-plus"></i></a>
+  
+    <a class="btn btn-{% if 'date' in request.GET %}warning{% else %}primary{% endif %} mb-3 mr-2" href="?date=True"
+    role="button"> الأقدم</a>
+
+<a class="btn btn-{% if 'first' in request.GET %}warning{% else %}primary{% endif %} mb-3 mr-2" href="?first=True"
+    role="button"> الأحدث</a>
+
+    <a class="btn btn-{% if 'title' in request.GET %}warning{% else %}primary{% endif %} mb-3 mr-2" href="?title=True"
+    role="button">
+    أبجدي</a>
+
+    <form class="form-inline">
+      <div class="form-group mr-sm-2 mb-2">
+          <input type="search" class="form-control" name="search" placeholder="Search" value={{ search_term }}>
+      </div>
+      <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i></button>
+  </form>
+
+  </div>
+  {% for ppost in pposts %}
+  <div class="col-md-6 ">
+    <div class="card mx-auto my-3">
+      <div style="width: 100%;height: 3px;background-color: aliceblue;"></div>
+      <div class="card-body border-top-5-danger">
+        
+        <h2 class="card-title mx-auto text-center">{{ ppost.title }}</h2>
+        <p>{{ ppost.content }}</p>
+        <div class="row">
+        {% for img in ppost.image.all %}
+            <img width="50px" height="auto" src="{{ img.image.url }}" />
+        {% endfor %}
+        </div>
+        {% for f in ppost.file.all %}
+            <a href="{{f.docfile.url}}" target="_new">{{f.docfile | filename}} </a>
+        {% endfor %}
+        <p>{{ ppost.date_created | date:"F d, Y"}}</p>
+        <a href="{% url 'progrm-detail' ppost.id %}" class="btn btn-secondary w-25 my-1" >التفاصيل</a>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      {% if pposts.has_previous %}
+      
+        <li class="page-item"><a class="page-link" href="?page=1&{{ params }}">الاولى</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ pposts.previous_page_number }}&{{ params }}">السابق</a></li>
+        {% endif %}
+  
+        <li class="page-item active"><a class="page-link" href="">{{ pposts.number }}</a></li>
+  
+        {% if pposts.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ pposts.next_page_number }}&{{ params }}">التالي</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ pposts.paginator.num_pages }}&{{ params }}">الاخيره</a></li>
+        {% endif %}
+    </ul>
+  </nav>
+{% endblock %}
+
+{% block pers %}
+<div class="card mb-3 ">
+    <h3 class=" text-center bg-secondary text-light  ">الاعضاء</h3>
+                              
+<ul>
+  {% for person in persons %}
+  
+  <li>{{ person }}
+      {% if request.user.is_staff %}
+      
+        {% if person|check_admin:"padmin" %}
+        <div class="admin-sign"></div>
+        <form  method="GET" action="{% url 'progrm-remove-admin' person.pk %}">
+          {% csrf_token %}
+            <input id="submit" type="submit" value="remove">
+        </form>
+        
+          {% else %}
+         
+        <form  method="GET" action="{% url 'progrm-admin' person.pk %}">
+          {% csrf_token %}
+            <input id="submit" type="submit" value="Admin">
+        </form>
+        {% endif %}
+      
+      {% endif %}
+      </li>
+  {% endfor %}
+</ul>
+</div>
+{% endblock pers %}
